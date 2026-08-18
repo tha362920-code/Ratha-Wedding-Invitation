@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rourn Ratha Wedding Invitation</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Khmer&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Moul&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app-viewport">
+
+        <div id="module-preloader">
+            <div class="loader-logo">WEDDING INVITATION</div>
+            <div class="loader-track">
+                <div class="loader-bar" id="load-progress-node"></div>
+            </div>
+        </div>
+
+        <audio id="core-audio-track" loop preload="auto"
+            src="Our Special Day - PHITIK ft ZANA - Wedding day of CHHAYHENG & SOKNGY - THE RING WEDDING CAMBODIA.mp3"></audio>
+
+        <canvas id="particle-canvas"></canvas>
+
+        <div class="master-background"></div>
+
+        <div class="floating-audio-hub" id="audio-dashboard-trigger" onclick="GlobalAudioController.toggleState()">
+            <span id="audio-icon-indicator" style="color: var(--gold-pure); font-size: 1.1rem;">MUTE</span>
+        </div>
+
+        <div id="view-doors" class="app-view view-active">
+            <div class="door-framework">
+                <div class="gate-wing gate-left"></div>
+                <div class="gate-wing gate-right"></div>
+                <div class="gate-crest" onclick="AppStateMachine.transitionToCover()">
+                    <span class="gate-crest-icon">❤️</span>
+                    <span
+                        style="font-size: 0.6rem; color: var(--gold-pure); margin-top: 4px; letter-spacing:1px;">OPEN</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-cover" class="app-view">
+            <div class="envelope-container">
+                <h3 class="ceremony-meta">សិរីសួស្តីអាពាហ៍ពិពាហ៍</h3>
+                <p class="sub-meta">Wedding Invitation</p>
+
+                <div class="couple-block">
+                    <div class="couple-name-kh">រឿន​ រដ្ឋា</div>
+                    <div class="couple-ampersand">ជាគូនឹង</div>
+                    <div class="couple-name-kh"> Coming soon</div>
+                </div>
+
+                <div class="guest-invite-frame">
+                    <div class="guest-title">សូមគោរពអញ្ជើញ / Honor Guest</div>
+                    <div class="guest-value" id="ui-guest-target">ឯកឧត្តម លោកជំទាវ លោកអ្នកឧកញ៉ា</div>
+                </div>
+
+                <button class="action-dispatch-btn" onclick="AppStateMachine.launchVideoSequence()">
+                    បើកសំបុត្រអញ្ជើញ / Open Invitation
+                </button>
+            </div>
+        </div>
+
+        <div id="view-video-interstitial" class="app-view">
+            <video id="interstitial-player" class="video-viewport" playsinline webkit-playsinline muted>
+                <source src="video.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div id="view-main-app" class="app-view">
+            <div class="scrollable-app-container" id="main-scroll-engine">
+                <div class="scroll-cards-pipeline">
+
+                    <div class="scroll-card">
+                        <h2
+                            style="font-family: var(--font-khmer-heading); color: var(--gold-pure); font-size: 1.4rem; margin-bottom: 5px;">
+                            សិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
+                        <p class="sub-meta" style="margin-bottom: 15px;">Auspicious Wedding Protocol</p>
+
+                        <div class="family-grid-matrix">
+                            <div class="family-branch">
+                                <h5>មាតាបិតាខាងប្រុស</h5>
+                                <p>លោក លោកស្រី គ្រួសារខាងប្រុស</p>
+                            </div>
+                            <div class="family-branch">
+                                <h5>មាតាបិតាខាងស្រី</h5>
+                                <p>លោក លោកស្រី គ្រួសារខាងស្រី</p>
+                            </div>
+                        </div>
+
+                        <p
+                            style="font-size: 0.9rem; line-height: 1.6; color: #eaeaea; text-align: justify; margin-top: 15px;">
+                            យើងខ្ញុំមានកិត្តិយសដ៏ខ្ពង់ខ្ពស់ សូមគោរពអញ្ជើញ ឯកឧត្តម លោកជំទាវ លោកអ្នកឧកញ៉ា លោក លោកស្រី
+                            និងអ្នកនាងកញ្ញា ចូលរួមជាអធិបតី និងផ្តល់កិត្តិយសក្នុងពិធីពិសាភោជនាហារ ដើម្បីប្រសិទ្ធពរជ័យ
+                            មង្គលការកូនប្រុស កូនស្រីរបស់យើងខ្ញុំ។
+                        </p>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h4 style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600;">
+                            រាប់ថយក្រោយចូលរួមមង្គលការ</h4>
+                        <div class="matrix-countdown">
+                            <div class="matrix-bucket">
+                                <div class="matrix-digit" id="node-days">00</div>
+                                <div class="matrix-label">ថ្ងៃ</div>
+                            </div>
+                            <div class="matrix-bucket">
+                                <div class="matrix-digit" id="node-hours">00</div>
+                                <div class="matrix-label">ម៉ោង</div>
+                            </div>
+                            <div class="matrix-bucket">
+                                <div class="matrix-digit" id="node-min">00</div>
+                                <div class="matrix-label">នាទី</div>
+                            </div>
+                            <div class="matrix-bucket">
+                                <div class="matrix-digit" id="node-sec">00</div>
+                                <div class="matrix-label">វិនាទី</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h3
+                            style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600; text-align: left;">
+                            ដំណើររឿងរ៉ាវស្នេហា</h3>
+                        <p class="sub-meta" style="text-align: left; margin-bottom: 15px;">Our Love Chronology</p>
+
+                        <div class="chronology-pipe">
+                            <div class="chronology-node">
+                                <div class="chronology-time">2020 - FIRST MEETING</div>
+                                <div class="chronology-title">ការជួបគ្នាដំបូង</div>
+                                <div class="chronology-desc">ចាប់ផ្តើមចេញពីមិត្តភាពដ៏ល្អបរិសុទ្ធ
+                                    ស្គាល់គ្នាយល់ចិត្តគ្នាយ៉ាងស្និទ្ធស្នាលបំផុត។</div>
+                            </div>
+                            <div class="chronology-node">
+                                <div class="chronology-time">2024 - ENGAGEMENT</div>
+                                <div class="chronology-title">ពិធីភ្ជាប់ពាក្យ</div>
+                                <div class="chronology-desc">ការប្តេជ្ញាចិត្តសាងអនាគតរួមគ្នា
+                                    ដោយមានការដឹងឮនិងពរជ័យពីចាស់ទុំទាំងសងខាង។</div>
+                            </div>
+                            <div class="chronology-node">
+                                <div class="chronology-time">2026 - WEDDING DAY</div>
+                                <div class="chronology-title">ថ្ងៃអាពាហ៍ពិពាហ៍</div>
+                                <div class="chronology-desc">ថ្ងៃដែលយើងខ្ញុំទន្ទឹងរង់ចាំ
+                                    ដើម្បីសាងគ្រួសារដ៏មានសុភមង្គលជារៀងរហូតតទៅ។</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h3
+                            style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600; margin-bottom: 15px;">
+                            កម្រងរូបភាពអនុស្សាវរីយ៍</h3>
+                        <div class="gallery-viewport-slider">
+                            <div class="gallery-slide-frame"
+                                onclick="LightboxController.openView(this.querySelector('img').src)">
+                                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop"
+                                    alt="Prewedding 1">
+                            </div>
+                            <div class="gallery-slide-frame"
+                                onclick="LightboxController.openView(this.querySelector('img').src)">
+                                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop"
+                                    alt="Prewedding 2">
+                            </div>
+                            <div class="gallery-slide-frame"
+                                onclick="LightboxController.openView(this.querySelector('img').src)">
+                                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600&auto=format&fit=crop"
+                                    alt="Prewedding 3">
+                            </div>
+                        </div>
+                        <p style="font-size: 0.75rem; color: #888; margin-top: 8px;">👈 អូសទៅឆ្វេងឬស្តាំដើម្បីមើលរូបភាព
+                            / Swipe to see more 👈</p>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h3 style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600;">
+                            កម្មវិធីនៃពិធីមង្គលការ</h3>
+                        <p class="sub-meta" style="margin-bottom: 20px;">Detailed Wedding Schedule</p>
+
+                        <div
+                            style="text-align: left; padding-left: 15px; border-left: 2px solid var(--gold-pure); font-size: 0.9rem;">
+                            <div style="margin-bottom:14px;"><strong>05:00 PM</strong> : ទទួលភ្ញៀវកិត្តិយសទាំងអស់ (Grand
+                                Guest Reception Arrival)</div>
+                            <div style="margin-bottom:14px;"><strong>06:00 PM</strong> : កម្មវិធីកាត់ខ្សែបូ
+                                និងពិធីតាមប្រពៃណី (Traditional Tape Cutting Ceremony)</div>
+                            <div style="margin-bottom:14px;"><strong>07:00 PM</strong> : ពិសារភោជនាហារមង្គលការ (Official
+                                Wedding Dinner Banquet)</div>
+                            <div style="margin-bottom:4px;"><strong>08:00 PM</strong> : កម្មវិធីរាំកម្សាន្ត
+                                និងការអបអរសាទរ (After Party / Dancing Celebration)</div>
+                        </div>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h3 style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600;">
+                            ទីតាំងប្រារព្ធពិធីមង្គលការ</h3>
+                        <p style="font-size: 0.95rem; color: var(--gold-light); margin-top: 4px;">មជ្ឈមណ្ឌលពិព័រណ៍
+                            និងពិធីការ OCIC ជ្រោយចង្វារ</p>
+                        <p style="font-size: 0.8rem; color: #bbb;">OCIC Wedding Hall, Building I</p>
+
+                        <div class="map-canvas-frame">
+                            <iframe src="https://maps.app.goo.gl/Vw5bRNHjsDPXqL7t6" allowfullscreen=""
+                                loading="lazy"></iframe>
+                        </div>
+
+                        <a href="https://maps.app.goo.gl/Vw5bRNHjsDPXqL7t6" target="_blank"
+                            style="text-decoration:none;">
+                            <button class="action-dispatch-btn"
+                                style="animation:none; font-size:0.8rem; padding: 10px 24px;">
+                                📍 បើកក្នុងកម្មវិធី Google Maps
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h3 style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600;">
+                            ការបញ្ជាក់ការចូលរួម</h3>
+                        <p class="sub-meta" style="margin-bottom: 20px;">RSVP Confirmation Form</p>
+
+                        <form id="rsvp-processing-form" onsubmit="RSVPFormHandler.processSubmission(event)">
+                            <div class="form-row">
+                                <label>ឈ្មោះរបស់អ្នក / Your Name</label>
+                                <input type="text" id="rsvp-input-name" class="input-ctrl" required
+                                    placeholder="សូមវាយបញ្ចូលឈ្មោះទីនេះ...">
+                            </div>
+                            <div class="form-row">
+                                <label>ចំនួនអ្នកចូលរួម / Total Attendees</label>
+                                <select id="rsvp-input-count" class="input-ctrl">
+                                    <option value="1">ចូលរួមម្នាក់ឯង (1 Person)</option>
+                                    <option value="2">ចូលរួម ២ នាក់ (2 People)</option>
+                                    <option value="3">ចូលរួម ៣ នាក់ (3 People)</option>
+                                    <option value="4">លើសពី ៣ នាក់ (More than 3)</option>
+                                    <option value="0">មិនអាចចូលរួមបានទេ (Regretfully cannot attend)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="action-dispatch-btn"
+                                style="animation:none; width:100%; margin-top:10px;">
+                                ផ្ញើការបញ្ជាក់ / Submit Confirmation
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="scroll-card">
+                        <h3 style="font-family: var(--font-khmer-body); color: var(--gold-pure); font-weight: 600;">
+                            សារជូនពរជ័យ</h3>
+                        <p class="sub-meta" style="margin-bottom: 20px;">Guest Wish Book</p>
+
+                        <form id="wish-processing-form" onsubmit="WishbookHandler.postMessage(event)">
+                            <div class="form-row">
+                                <label>ឈ្មោះរបស់អ្នក / Your Name</label>
+                                <input type="text" id="wish-input-name" class="input-ctrl" required
+                                    placeholder="សូមវាយបញ្ចូលឈ្មោះ...">
+                            </div>
+                            <div class="form-row">
+                                <label>សារជូនពរ / Wish Message</label>
+                                <textarea id="wish-input-msg" class="input-ctrl" rows="3" required
+                                    placeholder="សូមសរសេរសារជូនពរនៅទីនេះ..."></textarea>
+                            </div>
+                            <button type="submit" class="action-dispatch-btn" style="animation:none; width:100%;">
+                                ផ្ញើសារជូនពរ / Send Wishes
+                            </button>
+                        </form>
+
+                        <div class="wishbook-feed-window" id="wishbook-scroll-box">
+                            <div class="comment-node">
+                                <div class="comment-author">លោក ឧត្តម សុភ័ក្ត្រ</div>
+                                <div class="comment-body">សូមជូនពរប្អូនទាំងពីរស្រឡាញ់គ្នាដល់ចាស់កោងខ្នង
+                                    ទទួលបានសុភមង្គលពេញលេញក្នុងជីវិតអាពាហ៍ពិពាហ៍! 🎉</div>
+                            </div>
+                            <div class="comment-node">
+                                <div class="comment-author">Bonha & Nita</div>
+                                <div class="comment-body">Congratulations to the beautiful couple! Wishing you a
+                                    lifetime of love and happiness! ❤️</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="lightbox-overlay" onclick="LightboxController.closeView()">
+        <img id="lightbox-target-img" src="" alt="Enlarged context view">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

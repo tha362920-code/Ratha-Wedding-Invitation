@@ -1,0 +1,682 @@
+/* ==========================================================================
+   1. DESIGN CORE VARIABLES & RESET CONFIGURATIONS
+   ========================================================================== */
+:root {
+    --gold-pure: #d4af37;
+    --gold-light: #f3e5ab;
+    --gold-dark: #aa7c11;
+    --bg-overlay: rgba(15, 12, 12, 0.78);
+    --bg-card: rgba(28, 22, 22, 0.92); /* Higher opacity for a cleaner presentation */
+    --border-glow: rgba(212, 175, 55, 0.35);
+    --font-khmer-body: 'Khmer', sans-serif;
+    --font-khmer-heading: 'Moul', serif;
+    --font-en-serif: 'Playfair Display', serif;
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0b0909;
+    font-family: var(--font-khmer-body);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   2. REVOLVING GLOBAL CANVAS AND BACKDROP DESIGNS - UPDATED BACKGROUND
+   ========================================================================== */
+#app-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.master-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* REPLACED: Changed background target to your new akdad.avif asset */
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('123.jpg') center center / cover no-repeat;
+    
+    z-index: 1;
+    transform: scale(1.02);
+}
+
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   3. SCREEN DISPATCH SWITCH SYSTEM LAYERS
+   ========================================================================== */
+.app-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 0.8s cubic-bezier(0.42, 0, 0.58, 1), visibility 0.8s;
+}
+
+.app-view.view-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ==========================================================================
+   4. LOADING SPLASH INITIAL WINDOW COMPONENT
+   ========================================================================== */
+#module-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0d0b0b;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease, visibility 0.6s;
+}
+
+.loader-logo {
+    font-family: var(--font-khmer-heading);
+    color: var(--gold-pure);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    text-align: center;
+}
+
+.loader-track {
+    width: 200px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-pure));
+    box-shadow: 0 0 8px var(--gold-pure);
+    transition: width 0.1s linear;
+}
+
+@keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+/* ==========================================================================
+   5. ANCIENT KHMER DOOR ENTRY GATE DESIGNS (STAGE 0)
+   ========================================================================== */
+#view-doors {
+    background-color: #0f0c0c;
+    perspective: 1200px;
+    z-index: 100;
+}
+
+.door-framework {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.gate-wing {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 14, 14, 0.92), rgba(18, 14, 14, 0.92)), url('2.jpg') center center / cover;
+    border: 2px solid var(--gold-pure);
+    transition: transform 2.2s cubic-bezier(0.66, 0, 0.01, 1);
+}
+
+.gate-left {
+    left: 0;
+    transform-origin: left center;
+    border-right: 1px solid var(--gold-pure);
+}
+
+.gate-right {
+    right: 0;
+    transform-origin: right center;
+    border-left: 1px solid var(--gold-pure);
+}
+
+.gate-wing::before {
+    content: '';
+    position: absolute;
+    top: 15px; bottom: 15px; left: 15px; right: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    pointer-events: none;
+}
+
+.gate-crest {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 110px;
+    height: 110px;
+    background: #171313;
+    border: 3px solid var(--gold-pure);
+    border-radius: 50%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+    transition: transform 0.4s ease, opacity 0.5s ease;
+}
+
+.gate-crest:active {
+    transform: translate(-50%, -50%) scale(0.92);
+}
+
+.gate-crest-icon {
+    font-size: 1.8rem;
+    animation: rippleGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes rippleGlow {
+    0%, 100% { transform: scale(1); opacity: 0.8; text-shadow: 0 0 5px var(--gold-pure); }
+    50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 15px var(--gold-pure); }
+}
+
+.doors-displaced .gate-left { transform: rotateY(-110deg); }
+.doors-displaced .gate-right { transform: rotateY(110deg); }
+.doors-displaced .gate-crest { transform: translate(-50%, -50%) scale(0); opacity: 0; pointer-events: none; }
+
+/* ==========================================================================
+   6 & 8. RECONSTRUCTED CONTAINER FRAMES CONFIGURATION (WITH ARTBOARD .PNG)
+   ========================================================================== */
+#view-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+/* Master container base structure - Re-adds all missing layout configurations */
+.envelope-container, .scroll-card {
+    width: 100%;
+    max-width: 410px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    border-radius: 16px;
+    text-align: center;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-sizing: border-box;
+    
+    /* Applies custom asset frame cleanly around the original card layout background */
+    border: 24px solid transparent;
+    border-image-source: url('Artboard 1@300x.png');
+    border-image-slice: 135 fill; 
+    border-image-repeat: round;
+}
+
+/* Customized padding balances to keep texts perfectly aligned away from borders */
+.envelope-container {
+    padding: 20px 10px 30px 10px !important;
+}
+
+.scroll-card {
+    padding: 25px 12px !important;
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    transition: opacity 1.1s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                transform 1.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+    will-change: transform, opacity;
+    margin: 0 auto;
+}
+
+.scroll-card.card-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* ==========================================================================
+   7. INTERSTITIAL FULLSCREEN VIDEO LAYER INTERFACE
+   ========================================================================== */
+#view-video-interstitial {
+    background-color: #000000;
+    z-index: 500;
+}
+
+.video-viewport {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.skip-video-btn {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    z-index: 600;
+    transition: background 0.3s;
+}
+
+.skip-video-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   8. MAIN SCROLL ENGINE MECHANICAL STRUCTURAL SETUPS
+   ========================================================================== */
+#view-main-app {
+    z-index: 10;
+    pointer-events: auto !important;
+}
+
+.scrollable-app-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 24px 16px calc(60px + var(--safe-area-inset-bottom)) 16px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scroll-cards-pipeline {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px; 
+}
+
+/* ==========================================================================
+   9. RESTORED CORE COMPONENT TYPOGRAPHY AND LAYOUT BUTTON DESIGNS
+   ========================================================================== */
+.ceremony-meta {
+    font-family: var(--font-khmer-heading);
+    color: var(--gold-pure);
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.sub-meta {
+    font-family: var(--font-en-serif);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    margin-bottom: 30px;
+}
+
+.couple-block {
+    margin: 25px 0;
+}
+
+.couple-name-kh {
+    font-family: var(--font-khmer-body);
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin: 8px 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.couple-ampersand {
+    font-family: var(--font-en-serif);
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--gold-pure);
+    margin: 5px 0;
+}
+
+.guest-invite-frame {
+    background: rgba(0, 0, 0, 0.4);
+    border-top: 1px dashed var(--border-glow);
+    border-bottom: 1px dashed var(--border-glow);
+    padding: 18px 10px;
+    margin: 35px 0;
+}
+
+.guest-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #bfa1a1;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.guest-value {
+    font-family: var(--font-khmer-body);
+    font-size: 1.25rem;
+    color: var(--gold-light);
+    font-weight: 600;
+}
+
+/* Full recovery of your animated invitation CTA button */
+.action-dispatch-btn {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-pure));
+    color: #120c0c;
+    font-family: var(--font-khmer-body);
+    font-weight: bold;
+    font-size: 0.95rem;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.35);
+    outline: none;
+    display: inline-block;
+    margin: 10px auto;
+    animation: kineticJog 2.8s infinite cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-dispatch-btn:active {
+    transform: scale(0.96);
+}
+
+@keyframes kineticJog {
+    0%, 100% { transform: scale(1) translateY(0); }
+    45% { transform: scale(1.04) translateY(-5px); }
+    50% { transform: scale(1.04) translateY(-5px) rotate(-1.5deg); }
+    55% { transform: scale(1.04) translateY(-5px) rotate(1.5deg); }
+    60% { transform: scale(1.04) translateY(-5px) rotate(0deg); }
+}
+
+.family-grid-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding-bottom: 20px;
+}
+
+.family-branch h5 {
+    font-family: var(--font-khmer-body);
+    color: var(--gold-pure);
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.family-branch p {
+    color: #e0e0e0;
+    line-height: 1.5;
+}
+
+.chronology-pipe {
+    position: relative;
+    margin: 25px 0;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.chronology-pipe::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 6px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold-pure), rgba(212,175,55,0.1));
+}
+
+.chronology-node {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.chronology-node::before {
+    content: '';
+    position: absolute;
+    left: -19px; top: 4px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    border: 2px solid #000;
+    box-shadow: 0 0 8px var(--gold-pure);
+}
+
+.chronology-time {
+    font-family: var(--font-en-serif);
+    font-weight: bold;
+    color: var(--gold-pure);
+    font-size: 0.85rem;
+}
+
+.chronology-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 2px 0 5px 0;
+}
+
+.chronology-desc {
+    font-size: 0.85rem;
+    color: #cccccc;
+    line-height: 1.4;
+}
+
+.matrix-countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.matrix-bucket {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    padding: 12px 5px;
+    border-radius: 12px;
+}
+
+.matrix-digit {
+    font-family: var(--font-en-serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold-pure);
+}
+
+.matrix-countdown .matrix-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #aaaaaa;
+    margin-top: 2px;
+}
+
+.gallery-viewport-slider {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    gap: 12px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+}
+
+.gallery-viewport-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-slide-frame {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+    position: relative;
+    padding-bottom: 110%;
+    background: #171313;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.gallery-slide-frame img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+.map-canvas-frame {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    margin: 18px 0;
+    border: 1px solid var(--border-glow);
+}
+
+.map-canvas-frame iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border: 0;
+}
+
+.form-row {
+    text-align: left;
+    margin-bottom: 16px;
+}
+
+.form-row label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    padding-left: 4px;
+}
+
+.input-ctrl {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    color: #ffffff;
+    font-family: var(--font-khmer-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-ctrl:focus {
+    border-color: var(--gold-pure);
+}
+
+.wishbook-feed-window {
+    max-height: 220px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.25);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: left;
+    margin-top: 20px;
+    border: 1px solid rgba(212,175,55,0.1);
+}
+
+.comment-node {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 8px 0;
+}
+
+.comment-author {
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    font-weight: 600;
+}
+
+.comment-body {
+    font-size: 0.85rem;
+    color: #dddddd;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   10. POPUP LIGHTBOX LAYER OVERLAY COMPONENTS
+   ========================================================================== */
+.floating-audio-hub {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(18, 14, 14, 0.85);
+    border: 1px solid var(--gold-pure);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.floating-audio-hub.hub-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+#lightbox-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#lightbox-overlay img {
+    max-width: 95%;
+    max-height: 85%;
+    object-fit: contain;
+    border: 2px solid var(--gold-pure);
+    border-radius: 4px;
+}
